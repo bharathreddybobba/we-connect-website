@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        /* Reset styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Navigation styles */
+        nav {
+            background-color: #555;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            color: #ffc107;
+        }
+
+        /* Main content styles */
+        main {
+            padding: 20px;
+        }
+
+        .profile-info {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-form {
+            display: none; /* Hide profile form initially */
+        }
+
+        .profile-form.visible {
+            display: block; /* Show profile form when needed */
+        }
+
+        .profile-details p {
+            margin-bottom: 10px;
+        }
+
+        /* Form styles */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Profile</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="profile.html" id="profileLink">Profile</a></li>
+            <li><a href="chat.html">Chat</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="profile-info" id="profileSection">
+            <!-- Main content -->
+            <h2>Profile Information</h2>
+            <div class="profile-details" id="profileDetails">
+                <!-- Profile details will be populated here -->
+            </div>
+            <button onclick="editProfile()">Edit Profile</button>
+        </section>
+        <section class="profile-form" id="profileFormSection">
+            <!-- Profile form -->
+            <h2>Create Your Profile</h2>
+            <form id="profileForm" onsubmit="saveProfile(event)">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+                
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location">
+                
+                <label for="qualification">Qualification:</label>
+                <input type="text" id="qualification" name="qualification">
+                
+                <label for="expertise">Areas of Expertise:</label>
+                <input type="text" id="expertise" name="expertise">
+                
+                <label for="experience">Experience:</label>
+                <textarea id="experience" name="experience"></textarea>
+                
+                <button type="submit">Create Profile</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Social Media Platform. All rights reserved.</p>
+    </footer>
+    <script>
+        // Function to check if profile data exists in local storage
+        function checkProfileData() {
+            const profileData = localStorage.getItem('profileData');
+            if (profileData) {
+                const profileDetails = document.getElementById('profileDetails');
+                profileDetails.innerHTML = profileData;
+                showProfileSection(); // Show profile section if profile data exists
+            }
+        }
+
+        // Function to show profile section
+        function showProfileSection() {
+            const profileSection = document.getElementById('profileSection');
+            profileSection.style.display = 'block';
+
+            const profileFormSection = document.getElementById('profileFormSection');
+            profileFormSection.style.display = 'none';
+        }
+
+        // Function to show profile form
+        function showProfileForm() {
+            const profileSection = document.getElementById('profileSection');
+            profileSection.style.display = 'none';
+
+            const profileFormSection = document.getElementById('profileFormSection');
+            profileFormSection.style.display = 'block';
+        }
+
+        // Function to save profile data
+        function saveProfile(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const location = document.getElementById('location').value;
+            const qualification = document.getElementById('qualification').value;
+            const expertise = document.getElementById('expertise').value;
+            const experience = document.getElementById('experience').value;
+
+            const profileDetails = `
+                <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Location:</strong> ${location}</p>
+                <p><strong>Qualification:</strong> ${qualification}</p>
+                <p><strong>Areas of Expertise:</strong> ${expertise}</p>
+                <p><strong>Experience:</strong> ${experience}</p>
+            `;
+
+            const profileDetailsElement = document.getElementById('profileDetails');
+            profileDetailsElement.innerHTML = profileDetails;
+
+            localStorage.setItem('profileData', profileDetails); // Save profile data in local storage
+
+            showProfileSection(); // Show profile section after saving
+        }
+
+        // Function to edit profile
+        function editProfile() {
+            showProfileForm(); // Show profile form for editing
+        }
+
+        // Load profile data when the page loads
+        window.onload = checkProfileData;
+    </script>
+</body>
+</html>

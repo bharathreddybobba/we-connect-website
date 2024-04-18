@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE CONNECT</title>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* CSS styles */
+    </style>
+</head>
+<body>
+    <!-- Your HTML content -->
+
+    <!-- JavaScript code for ChatInterface functionality -->
+    <script src="chat.js"></script>
+
+    <!-- JavaScript code for LoginForm functionality -->
+    <script>
+        document.querySelector('form.login-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            // Call login API
+            try {
+                const response = await fetch('http://localhost:5001/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: this.elements.username.value,
+                        password: this.elements.password.value
+                    })
+                });
+                if (response.ok) {
+                    // Handle successful login
+                    console.log('Login successful');
+                } else {
+                    console.error('Login failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+            }
+        });
+    </script>
+
+    <!-- JavaScript code for PaymentForm functionality -->
+    <script>
+        document.querySelector('form.payment-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            // Call payment API
+            try {
+                const response = await fetch('http://localhost:5001/api/payment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: this.elements.amount.value,
+                        cardNumber: this.elements.cardNumber.value,
+                        // Add other payment details here
+                    })
+                });
+                if (response.ok) {
+                    // Handle successful payment
+                    console.log('Payment successful');
+                } else {
+                    console.error('Payment failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+            }
+        });
+    </script>
+
+    <!-- JavaScript code for RegistrationForm functionality -->
+    <script>
+        document.querySelector('form.registration-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            // Call registration API
+            try {
+                const response = await fetch('http://localhost:5001/api/registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: this.elements.username.value,
+                        email: this.elements.email.value,
+                        password: this.elements.password.value,
+                        // Add other registration details here
+                    })
+                });
+                if (response.ok) {
+                    // Handle successful registration
+                    console.log('Registration successful');
+                } else {
+                    console.error('Registration failed:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error registering user:', error);
+            }
+        });
+    </script>
+</body>
+</html>

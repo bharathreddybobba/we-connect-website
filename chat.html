@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <!-- Add Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('chat.jpeg') no-repeat center center fixed; /* Background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-color: #f0f0f0; /* Fallback color */
+            animation: animateBackground 20s linear infinite alternate; /* Background animation */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    
+        @keyframes animateBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+    
+        .chat-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #chatMessages {
+            height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        #messageInput {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .message-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .message-content {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .bot-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: #007bff;
+        }
+        .bot-message-content {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .home-link {
+            color: #007bff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .home-link:hover {
+            text-decoration: underline;
+        }
+    </style>        
+</head>
+<body>
+    <div class="chat-container">
+        <a href="index.html" class="home-link"><i class="fas fa-home"></i> Home</a>
+        <h2>Chat Interface</h2>
+        <div id="chatMessages">
+            <!-- Example messages -->
+            <div class="message-container">
+                <img src="chat.png" alt="User Avatar" class="user-avatar">
+                <div class="message-content">
+                    Hello! How can I assist you today?
+                </div>
+            </div>
+        </div>
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            var messageInput = document.getElementById('messageInput');
+            var message = messageInput.value.trim();
+        
+            if (message !== '') {
+                var chatMessages = document.getElementById('chatMessages');
+                
+                // User's message
+                var userMessageContainer = document.createElement('div');
+                userMessageContainer.classList.add('message-container');
+                var userAvatar = document.createElement('img');
+                userAvatar.src = 'user.png';
+                userAvatar.alt = 'User Avatar';
+                userAvatar.classList.add('user-avatar');
+                userMessageContainer.appendChild(userAvatar);
+                var userMessageContent = document.createElement('div');
+                userMessageContent.classList.add('message-content');
+                userMessageContent.textContent = message;
+                userMessageContainer.appendChild(userMessageContent);
+                chatMessages.appendChild(userMessageContainer);
+        
+                // Clear the message input
+                messageInput.value = ''; // Clear message input here
+                
+                // Call the Rasa API to get response
+                var botResponse = await getBotResponse(message);
+        
+                // Bot's reply
+                var botMessageContainer = document.createElement('div');
+                botMessageContainer.classList.add('message-container');
+                var botAvatar = document.createElement('div');
+                botAvatar.classList.add('bot-avatar');
+                botMessageContainer.appendChild(botAvatar);
+                var botMessageContent = document.createElement('div');
+                botMessageContent.classList.add('message-content', 'bot-message-content');
+                
+                botMessageContent.textContent = botResponse;
+                botMessageContainer.appendChild(botMessageContent);
+                chatMessages.appendChild(botMessageContainer);
+        
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+        
+
+        // Function to call the Rasa API
+        async function getBotResponse(message) {
+            // Make an asynchronous request to the Rasa API endpoint
+            var response = await fetch('http://localhost:5500/webhooks/rest/webhook', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ sender: 'user', message: message })
+            });
+
+            // Parse the JSON response
+            var data = await response.json();
+
+            // Return the first response message from the API
+            if (data && data.length > 0 && data[0].text) {
+                return data[0].text;
+            } else {
+                return 'Sorry, I could not understand that.';
+            }
+        }
+    </script>
+</body>
+</html>

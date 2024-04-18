@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            /* Add background image */
+            background-image: url('background-image.jpg');
+            background-size: cover;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+        h2 {
+            text-align: center;
+            color: #007bff;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .home-icon {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #007bff; /* Change icon color */
+            font-size: 24px; /* Corrected typo */
+            text-decoration: none;
+            z-index: 1; /* Ensure icon is above other elements */
+        }
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="home-icon"><i class="fas fa-home"></i></a>
+    <div class="container">
+        <h2>Payment Page</h2>
+        <div class="image-container">
+            <img src="payment.png" alt="Payment Image">
+        </div>
+        <!-- HTML Form for Payment -->
+        <form id="paymentForm">
+            <input type="text" name="cardNumber" placeholder="Card Number" required>
+            <input type="text" name="expiryDate" placeholder="Expiry Date (MM/YYYY)" required>
+            <input type="text" name="cvv" placeholder="CVV" required>
+            <input type="text" name="amount" placeholder="Amount" required>
+            <button type="submit">Pay</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+
+
+    <script>
+        const paymentForm = document.getElementById('paymentForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        paymentForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(paymentForm);
+
+            try {
+                const response = await fetch('/processPayment', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert('Payment successful!');
+                    // Redirect to a thank you page or perform other actions as needed
+                } else {
+                    displayError('Payment failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error processing payment:', error);
+                displayError('An unexpected error occurred. Please try again later.');
+            }
+        });
+
+        function displayError(message) {
+            errorMessage.textContent = message;
+        }
+    </script>
+
+</body>
+</html>

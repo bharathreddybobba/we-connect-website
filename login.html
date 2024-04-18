@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Signup</title>
+    <style>
+        /* Reset styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            color: #333;
+        }
+
+        /* Navigation styles */
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+        }
+
+        /* Main content styles */
+        main {
+            text-align: center;
+        }
+
+        .form-container {
+            display: none;
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-container input[type="email"],
+        .form-container input[type="password"],
+        .form-container input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+        }
+
+        /* Logout button */
+        #logoutBtn {
+            background-color: #dc3545;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #logoutBtn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to Our Social Media Platform</h1>
+        </header>
+        <nav>
+            <ul id="navLinks">
+                <!-- Links will be updated dynamically -->
+            </ul>
+        </nav>
+        <main>
+            <div class="form-container" id="loginForm">
+                <!-- Login form -->
+                <h2>Login</h2>
+                <form id="login-form" onsubmit="login(event)">
+                    <input type="email" name="email" placeholder="Email" required><br>
+                    <input type="password" name="password" placeholder="Password" required><br>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+            <div class="form-container" id="signupForm">
+                <!-- Signup form -->
+                <h2>Signup</h2>
+                <form id="signup-form" onsubmit="signup(event)">
+                    <input type="text" name="username" placeholder="Username" required><br>
+                    <input type="email" name="email" placeholder="Email" required><br>
+                    <input type="password" name="password" placeholder="Password" required><br>
+                    <button type="submit">Signup</button>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2024 Social Media Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simulate login status, change it to true if the user is logged in
+        let loggedIn = false;
+
+        // Update navigation when the page loads
+        window.onload = function() {
+            updateNavigation(loggedIn);
+        };
+
+        function showLoginForm() {
+            document.getElementById('loginForm').classList.add('active');
+            document.getElementById('signupForm').classList.remove('active');
+        }
+
+        function showSignupForm() {
+            document.getElementById('signupForm').classList.add('active');
+            document.getElementById('loginForm').classList.remove('active');
+        }
+
+        function login(event) {
+            event.preventDefault();
+            // Perform login validation
+            // If login is successful, redirect to home page and update navigation
+            window.location.href = "index.html";
+            loggedIn = true;
+            updateNavigation(loggedIn);
+        }
+
+        function signup(event) {
+            event.preventDefault();
+            // Perform signup validation
+            // If signup is successful, redirect to home page and update navigation
+            window.location.href = "index.html";
+            loggedIn = true;
+            updateNavigation(loggedIn);
+        }
+
+        function updateNavigation(loggedIn) {
+            const navLinks = document.getElementById('navLinks');
+            if (loggedIn) {
+                // Replace login/signup links with logout button
+                navLinks.innerHTML = '<li><button id="logoutBtn" onclick="logout()">Logout</button></li>';
+            } else {
+                // Replace logout button with login/signup links
+                navLinks.innerHTML = `
+                    <li><a href="#" onclick="showLoginForm()">Login</a></li>
+                    <li><a href="#" onclick="showSignupForm()">Signup</a></li>
+                `;
+            }
+        }
+
+        function logout() {
+            // Perform logout actions
+            // For example, clear session, redirect to login page
+            loggedIn = false;
+            updateNavigation(loggedIn);
+        }
+    </script>
+</body>
+</html>

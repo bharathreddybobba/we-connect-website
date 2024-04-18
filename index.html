@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE CONNECT</title>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Reset default margin and padding */
+        body, h1, h2, h3, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('content-background.jpg') no-repeat center center fixed; /* Background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-color: #f0f0f0; /* Fallback color */
+            animation: animateBackground 20s linear infinite alternate; /* Background animation */
+        }
+
+        @keyframes animateBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Header styles */
+        header {
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Navigation styles */
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+        }
+
+        nav ul li a:hover {
+            background-color: #555;
+        }
+
+        /* Main content styles */
+        main {
+            padding: 20px;
+        }
+
+        .content {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* News section styles */
+        .news {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .news h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .news ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .news ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Job listings section styles */
+        .jobs {
+            background-color: #f9f9f9;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .jobs h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .jobs ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .jobs ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WE CONNECT</h1> 
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+            <li><a href="chat.html"><i class="fas fa-comment"></i> Chat</a></li>
+            <li><a href="registration.html"><i class="fas fa-user-plus"></i> Registration</a></li>
+            <li><a href="payment.html"><i class="fas fa-credit-card"></i> Payment</a></li>
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section class="content">
+            <!-- Main content -->
+            <h2>Main Content</h2>
+            <div class="additional-info">
+                <p>Welcome to our social media platform, where professionals and beginners come together to learn, collaborate, and grow.</p>
+                <p>Our platform bridges the gap between experienced professionals and newcomers, providing a supportive environment for networking, skill development, and career advancement.</p>
+                <p>Whether you're a seasoned expert or just starting your journey, you'll find valuable resources, mentorship opportunities, and job openings tailored to your needs.</p>
+                <p>Join us today and take your career to the next level!</p>
+            </div>
+        </section>
+        
+        <section class="news">
+            <h2>Latest News</h2>
+            <ul>
+                <li><strong>Breaking News:</strong> New feature launched!</li>
+                <li><strong>Event Update:</strong> Join our webinar on career development.</li>
+                <li><strong>Community Highlight:</strong> Meet our top contributors of the month.</li>
+            </ul>
+        </section>
+        
+        <section class="jobs">
+            <h2>Job Listings</h2>
+            <ul>
+                <li><strong>Job Title:</strong> Full Stack Developer</li>
+                <li><strong>Location:</strong> New York, NY</li>
+                <li><strong>Company:</strong> Tech Co.</li>
+            </ul>
+            <ul>
+                <li><strong>Job Title:</strong> Marketing Manager</li>
+                <li><strong>Location:</strong> San Francisco, CA</li>
+                <li><strong>Company:</strong> Marketing Agency</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Social Media Platform. All rights reserved.</p>
+    </footer>
+
+    <!-- Script for sending messages -->
+    <script>
+        async function sendMessage() {
+            var messageInput = document.getElementById('messageInput');
+            var message = messageInput.value.trim();
+            
+            if (message !== '') {
+                try {
+                    var response = await fetch('http://localhost:5001/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message: message })
+                    });
+
+                    if (response.ok) {
+                        var responseData = await response.json();
+                        console.log(responseData); // Log the response data
+                    } else {
+                        console.error('Failed to send message:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+                
+                // Clear the message input
+                messageInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
